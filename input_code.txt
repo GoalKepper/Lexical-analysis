@@ -1,0 +1,108 @@
+#include "ClassField.h"
+#include "profile.h"
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <ctime>
+#include <map>
+#include <set>
+
+using namespace std;
+const int Number_Of_Command = 500;
+
+int main()
+{
+    srand(time(0));
+    setlocale(LC_ALL, "RUS");
+	
+    int Size_Of_Field = 0;
+    cout << "Input size: ";
+    cin >> Size_Of_Field;
+
+    vector<char> Real_Values = { '_' };
+    char value;
+    cout << "Input values: ";
+	for (size_t i = 0; i < Size_Of_Field; i++) {
+		cin >> value;
+		Real_Values.push_back(value);
+	}
+
+    //Случай, когда нам нужно следить за неповторением в блоках (sqrt(Size_Of_Field) - целое число)
+    if (sqrt(Size_Of_Field) == int(sqrt(Size_Of_Field))) {
+	    Field field(Size_Of_Field, sqrt(Size_Of_Field));
+
+	    for (int i = 0; i < Number_Of_Command; i++) {
+	        int value = rand() % 5 + 1;
+	        int x = rand() % int(sqrt(Size_Of_Field));
+	        int y = rand() % int(sqrt(Size_Of_Field));
+	        switch (value) {
+	        case 1:
+	            field.tr_field();
+	            continue;
+	        case 2:
+	            field.changeX(x, y);
+	            continue;
+	        case 3:
+	            field.changeY(x, y);
+	            continue;
+	        case 4:
+	            field.changeXblock(x, y, sqrt(Size_Of_Field));
+	            continue;
+	        case 5:
+	            field.changeYblock(x, y, sqrt(Size_Of_Field));
+	        }
+    	}
+		vector<vector<int>> VExample = field.Get_Field();
+		DelElems(VExample);
+		for (auto Str : VExample) {
+			for (auto i : Str) {
+				cout << Real_Values[i] << " ";
+			}
+			cout << endl;
+		}
+		MakeVector(VExample);
+		cout << endl << endl;
+		for (auto Str : VExample) {
+			for (auto i : Str) {
+				cout << Real_Values[i] << " ";
+			}
+			cout << endl;
+		}
+    } else {
+        Field field(Size_Of_Field);
+        for (int i = 0; i < Number_Of_Command; i++) {
+	        int value = rand() % 3 + 1;
+	        int x = rand() % Size_Of_Field;
+	        int y = rand() % Size_Of_Field;
+	        switch (value) {
+	        case 1:
+	            field.tr_field();
+	            continue;
+	        case 2:
+	            field.changeX(x, y);
+	            continue;
+	        case 3:
+	            field.changeY(x, y);
+	        }
+        }
+		vector<vector<int>> VExample = field.Get_Field();
+		DelElems(VExample);
+		for (auto Str : VExample) {
+			for (auto i : Str) {
+				cout << Real_Values[i] << " ";
+			}
+			cout << endl;
+		}
+		MakeVector(VExample);
+		cout << endl << endl;
+		for (auto Str : VExample) {
+			for (auto i : Str) {
+				cout << Real_Values[i] << " ";
+            }
+            cout << endl;
+        }
+	}
+    return 0;
+}
